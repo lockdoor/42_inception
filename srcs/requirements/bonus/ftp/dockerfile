@@ -1,0 +1,19 @@
+FROM debian:bullseye
+
+# ENV FTP_USER=pnamnil
+# ENV FTP_PASS=46671111
+
+RUN apt-get update -y && apt-get install -y procps vsftpd net-tools
+
+WORKDIR /home
+
+COPY ./tools/ftp.sh /home/ftp.sh
+COPY ./conf/vsftpd.conf /etc/vsftpd.conf
+
+RUN chmod +x ftp.sh
+
+EXPOSE  20-21 21100-21110
+
+ENTRYPOINT [ "/bin/bash", "ftp.sh" ]
+
+CMD ["/usr/sbin/vsftpd", "/etc/vsftpd.conf"]

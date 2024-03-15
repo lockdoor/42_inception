@@ -1,0 +1,15 @@
+FROM debian:bullseye
+
+RUN apt-get update -y && apt-get install -y procps redis
+
+WORKDIR /home
+
+COPY ./tools/redis.sh /home
+
+RUN chmod +x redis.sh
+
+EXPOSE 6379
+
+ENTRYPOINT ["./redis.sh"]
+
+CMD [ "redis-server", "--protected-mode", "no" ]

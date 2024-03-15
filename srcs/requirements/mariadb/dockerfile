@@ -1,0 +1,17 @@
+FROM debian:bullseye
+
+RUN apt-get -y update && apt-get install -y mariadb-server net-tools
+
+WORKDIR /home
+
+COPY ./tools /home
+
+RUN chmod +x mariadb.sh
+
+EXPOSE 3306
+
+ENTRYPOINT [ "./mariadb.sh" ]
+
+# ENTRYPOINT [ "sleep", "100000" ]
+
+CMD ["mariadbd", "--bind-address=0.0.0.0"]

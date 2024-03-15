@@ -1,0 +1,15 @@
+FROM debian:bullseye
+
+RUN apt-get update -y && apt-get install -y php php-fpm php-mysql
+
+EXPOSE 9000
+
+WORKDIR /var/www/html
+
+RUN mkdir -p /run/php
+
+COPY ./tools/adminer-4.8.1-mysql.php /var/www/html/index.php
+
+COPY ./conf/www.conf /etc/php/7.4/fpm/pool.d/www.conf
+
+ENTRYPOINT [ "/usr/sbin/php-fpm7.4", "-F" ]

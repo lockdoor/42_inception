@@ -1,0 +1,21 @@
+FROM debian:bullseye
+
+RUN apt-get update -y && apt-get -y install procps nginx openssl vim net-tools telnet
+
+RUN rm -f /etc/nginx/sites-enabled/default
+
+COPY ./conf /etc/nginx/sites-enabled
+COPY ./tools/static /home/static
+
+WORKDIR /etc/nginx
+
+# nginx SSL
+RUN mkdir /etc/nginx/ssl
+RUN openssl req -newkey rsa:4096 -x509 -sha256 -days 365 -nodes \
+        -out /etc/nginx/ssl/pnamnil.crt \
+        -keyout /etc/nginx/ssl/pnamnil.key \
+        -subj "/O=42 School/OU=pnamnil/CN=pnamnil/"
+
+EXPOSE 443/tcp
+
+ENTRYPOINT ["/usr/sbin/nginx", "-g", "daemon off;"]
