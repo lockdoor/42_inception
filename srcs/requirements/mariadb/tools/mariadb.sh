@@ -7,7 +7,7 @@ mysql_install_db
 /etc/init.d/mariadb start
 
 # check if directory wordpress database is exists
-if [-d "/var/lib/mysql/$MYSQL_DATABASE_WORDPRESS"]
+if [ -d "/var/lib/mysql/$MYSQL_DATABASE_WORDPRESS" ];
 then
     echo "Database already exists"
 else

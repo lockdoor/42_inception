@@ -1,8 +1,11 @@
 all:
-	@mkdir -p srcs/data
-	@mkdir -p srcs/data/mariadb
-	@mkdir -p srcs/data/wordpress
-	@docker compose -f ./srcs/docker-compose.yml up -d --build
+#	@mkdir -p srcs/data
+#	@mkdir -p srcs/data/mariadb
+#	@mkdir -p srcs/data/wordpress
+	@mkdir -p ${HOME}/data
+	@mkdir -p ${HOME}/data/mariadb
+	@mkdir -p ${HOME}/data/wordpress
+	@docker compose -f ./srcs/docker-compose.yml up --build
 
 down:
 	@docker compose -f ./srcs/docker-compose.yml down

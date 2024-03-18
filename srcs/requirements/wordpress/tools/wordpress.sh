@@ -1,8 +1,7 @@
 #!/bin/bash
 
 #check if wp-config.php exist
-if [-f ./wp-config.php]
-then
+if [ -e "wp-config.php" ]; then
     echo "wordpress already downloaded"
 else
 
@@ -27,10 +26,16 @@ else
   	wp config set WP_REDIS_PORT 6379 --raw --allow-root
  	wp config set WP_CACHE_KEY_SALT $DOMAIN_NAME --allow-root
   	#wp config set WP_REDIS_PASSWORD $REDIS_PASSWORD --allow-root
+  	sleep 20
  	wp config set WP_REDIS_CLIENT phpredis --allow-root
 	wp plugin install redis-cache --activate --allow-root
-    wp plugin update --all --allow-root
+	wp plugin update --all --allow-root
 	wp redis enable --allow-root
+
+	#change host_url
+	#wp search-replace "http://localhost" "http://pnamnil.42.fr" --all-tables --allow-root
+	wp option update home "http://pnamnil.42.fr" --allow-root
+	wp option update siteurl "http://pnamnil.42.fr" --allow-root
 fi
 
 exec "$@"

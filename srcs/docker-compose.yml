@@ -1,4 +1,4 @@
-version: '3.1'
+version: '3'
 
 services:
   
@@ -13,7 +13,7 @@ services:
       - adminer
     restart: always
     volumes:
-      - ./data/wordpress:/var/www/html
+      - ${HOME}/data/wordpress:/var/www/html
     ports:
       - 443:443
     networks:
@@ -32,7 +32,7 @@ services:
       - redis
     restart: always
     volumes:
-      - ./data/wordpress:/var/www/html
+      - ${HOME}/data/wordpress:/var/www/html
     networks:
       - app
     env_file:
@@ -68,7 +68,7 @@ services:
     container_name: mariadb
     restart: always
     volumes:
-      - ./data/mariadb:/var/lib/mysql
+      - ${HOME}/data/mariadb:/var/lib/mysql
     networks:
       - app
     env_file:
@@ -82,7 +82,7 @@ services:
     container_name: ftp
     restart: always
     volumes: 
-      - ./data/wordpress:/var/www/html
+      - ${HOME}/data/wordpress:/var/www/html
     ports:
       - 21:21
       - 21100-21110:21100-21110
@@ -91,18 +91,35 @@ services:
     env_file:
       - .env
 
+  #monitoring:
+    #image: nicolargo/glances:latest
+    # container_name: glances
+    #pid: host
+    # restart: always
+    # ports:
+    # - 61208-61209:61208-61209
+    #volumes:
+    # - /var/run/docker.sock:/var/run/docker.sock:ro
+    # - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
+    #environment:
+    # - GLANCES_OPT=-w
+    #networks:
+    # - app
+
   monitoring:
-    image: nicolargo/glances:latest
+    build:
+      context: ./requirements/bonus/glances
+      dockerfile: Dockerfile
+    image: glances
     container_name: glances
-    pid: host
     restart: always
     ports:
       - 61208-61209:61208-61209
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
-    environment:
-      - GLANCES_OPT=-w
+          #environment:
+      #      - GLANCES_OPT=-w
     networks:
       - app
 
