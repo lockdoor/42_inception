@@ -1,0 +1,9 @@
+FROM debian:bullseye
+
+RUN apt-get update -y && apt-get install -y procps lighttpd
+
+COPY /tools/html /var/www/html
+
+EXPOSE 80
+
+CMD ["lighttpd", "-f", "/etc/lighttpd/lighttpd.conf", "-D"]

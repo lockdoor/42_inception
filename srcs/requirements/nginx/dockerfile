@@ -5,7 +5,6 @@ RUN apt-get update -y && apt-get -y install procps nginx openssl vim net-tools t
 RUN rm -f /etc/nginx/sites-enabled/default
 
 COPY ./conf /etc/nginx/sites-enabled
-COPY ./tools/static /home/static
 
 WORKDIR /etc/nginx
 

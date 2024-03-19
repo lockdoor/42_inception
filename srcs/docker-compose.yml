@@ -90,36 +90,26 @@ services:
       - app
     env_file:
       - .env
+  
+  lighttpd:
+    build:
+      context: ./requirements/bonus/lighttpd
+      dockerfile: dockerfile
+    image: lighttpd
+    container_name: lighttpd
+    networks:
+      - app
 
-  #monitoring:
-    #image: nicolargo/glances:latest
-    # container_name: glances
-    #pid: host
-    # restart: always
-    # ports:
-    # - 61208-61209:61208-61209
-    #volumes:
-    # - /var/run/docker.sock:/var/run/docker.sock:ro
-    # - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
-    #environment:
-    # - GLANCES_OPT=-w
-    #networks:
-    # - app
-
-  monitoring:
+  glances:
     build:
       context: ./requirements/bonus/glances
       dockerfile: Dockerfile
     image: glances
     container_name: glances
     restart: always
-    ports:
-      - 61208-61209:61208-61209
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock:ro
       - /run/user/1000/podman/podman.sock:/run/user/1000/podman/podman.sock:ro
-          #environment:
-      #      - GLANCES_OPT=-w
     networks:
       - app
 
